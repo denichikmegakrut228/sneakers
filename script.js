@@ -1,3 +1,8 @@
+if (window.Telegram && window.Telegram.WebApp) {
+    Telegram.WebApp.ready();
+    Telegram.WebApp.expand(); // Расширяет приложение на весь экран
+    Telegram.WebApp.disableVerticalSwipes(); // Отключает закрытие свайпом вверх
+}
 document.addEventListener("DOMContentLoaded", () => {
   const productList = document.getElementById("product-list");
   const favoritesList = document.getElementById("favorites-list");
