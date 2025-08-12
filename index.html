@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2legs Store</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="header">
+    <h1 class="logo">2legs</h1>
+  </div>
+
+ <div class="top-panel">
+  <div class="search-bar">
+    <img src="icons/лупа.svg" class="search-icon" id="search-icon" alt="Поиск" />
+    <img src="icons/стрелка-влево-белая.svg" class="back-icon" id="back-icon" alt="Назад" style="display: none;" />
+    <input type="text" placeholder="Поиск" id="search-input" />
+    <img src="icons/фильтр.svg" class="filter-icon" alt="Фильтр" />
+  </div>
+  <div class="menu-button">
+    <img src="icons/меню.svg" alt="Меню" />
+  </div>
+</div>
+
+  <!-- 👇 Блок сообщения о не найденных товарах -->
+  <p id="not-found-message" class="not-found-text" style="display: none;">
+    К сожалению, товар не найден.
+  </p>
+
+  <div id="main-view">
+    <div id="product-list" class="product-list"></div>
+  </div>
+
+  <div id="favorites-view" style="display: none;">
+    <div class="favorites-header">
+      <h2 class="view-title">Избранное</h2>
+      <p id="favorites-count" class="view-count">0 товаров</p>
+    </div>
+    <div id="favorites-list" class="product-list"></div>
+  </div>
+
+  <div id="cart-view" style="display: none;">
+  <div class="cart-header">
+    <h2 class="view-title">Корзина</h2>
+    <p id="cart-count-display" class="view-count">0 товаров</p>
+  </div>
+
+  <div id="cart-items" class="cart-items"></div>
+
+  <div class="cart-summary" id="cart-summary" style="display: none;">
+    <div class="cart-total">Итого: <span id="total-price">0 ₽</span></div>
+    <button class="checkout-btn">Оформить</button>
+  </div>
+</div>
+
+  <!-- 👇 Похожие товары -->
+  <div id="suggested-products-container" style="display: none;">
+    <h2 class="view-title">Похожие товары</h2>
+    <div id="suggested-products" class="product-list"></div>
+  </div>
+
+  <div class="bottom-nav">
+    <img src="icons/сердце для меню.svg" id="nav-favorites" />
+    <img src="icons/основной магазин.svg" id="nav-store" class="active" />
+    <div class="cart-wrapper">
+      <img src="icons/корзина.svg" id="nav-cart" />
+      <div class="cart-count" id="cart-count">0</div>
+    </div>
+  </div>
+
+  <button id="scrollToTopBtn">
+    <img src="icons/наверх.svg" alt="Наверх" />
+  </button>
+
+<div id="filter-popup" class="filter-popup">
+  <div class="filter-content">
+    <h3 class="filter-title">Сортировать по:</h3>
+    <div class="filter-option" data-sort="newest">
+  <div class="filter-circle"></div>
+  <span>Новинки</span>
+</div>
+    <div class="filter-option" data-sort="price-asc">
+      <div class="filter-circle"></div>
+      <span>По возрастанию цены</span>
+    </div>
+    <div class="filter-option" data-sort="price-desc">
+      <div class="filter-circle"></div>
+      <span>По убыванию цены</span>
+    </div>
+
+    <button id="reset-filters" class="reset-filters-btn">Сбросить фильтры</button>
+  </div>
+</div>
+
+<!-- Карточка товара -->
+<div id="product-detail-view" style="display: none;">
+  <div class="product-detail-image-container">
+    <img id="product-detail-image" src="" alt="Фото товара">
+    <div id="product-detail-dots" class="dots"></div>
+
+    <!-- Кнопка назад -->
+    <button id="back-to-catalog" class="back-button">
+      <img src="icons/стрелка-влево-чёрная.svg" alt="Назад">
+    </button>
+  </div>
+
+  <div class="product-detail-content">
+    <h2 id="product-detail-name"></h2>
+    <p class="size-label">Доступные размеры</p>
+    <div id="product-detail-sizes" class="size-options"></div>
+
+    <div class="product-divider"></div>
+
+    <p id="product-detail-price" class="product-detail-price"></p>
+
+    <button id="add-to-cart-detail" class="add-to-cart-detail">
+      Добавить в корзину
+      <span id="selected-size-label" class="selected-size-label"></span>
+    </button>
+  </div>
+</div>
+
+  <script src="script.js"></script>
+
+ <div id="menu-panel" class="menu-panel">
+  <div class="menu-header">
+    <h3>Категории</h3>
+    <img src="icons/крестик.svg" id="close-menu" class="close-icon" />
+  </div>
+
+  <div class="menu-option-container">
+    <div class="menu-option" id="back-to-main">
+      <span>Главная</span>
+      <img src="icons/стрелка.svg" class="arrow-icon invisible-arrow" />
+    </div>
+
+    <div class="menu-option" data-menu="brands">
+      <span>Бренды</span>
+      <img src="icons/стрелка.svg" class="arrow-icon" />
+    </div>
+    <div class="submenu submenu-brands" id="brand-list"></div>
+
+    <div class="menu-option" data-menu="discounts">
+      <span>Скидки</span>
+      <img src="icons/стрелка.svg" class="arrow-icon" />
+    </div>
+    <div class="submenu submenu-discounts">
+      <p class="submenu-empty">Нет скидок</p>
+    </div>
+
+    <div class="menu-option" data-menu="accessories">
+      <span>Аксессуары</span>
+      <img src="icons/стрелка.svg" class="arrow-icon" />
+    </div>
+    <div class="submenu submenu-accessories">
+      <p class="submenu-empty">Нет аксессуаров</p>
+    </div>
+  </div>
+
+  <hr class="menu-divider" />
+
+<div class="menu-footer">
+  <div class="footer-links">
+    <div class="footer-link">Оплата и доставка</div>
+    <div class="footer-link">Контакты</div>
+  </div>
+
+  <div class="social-icons">
+    <img src="icons/insta.svg" alt="Instagram" />
+    <img src="icons/tg.svg" alt="Telegram" />
+  </div>
+</div>
+</div>
+<div id="checkout-view" style="display: none;">
+  <div class="checkout-header">Оформление</div>
+
+  <div class="checkout-section">
+    <div class="checkout-label">Оплата</div>
+    <div class="checkout-option-group">
+      <label class="custom-radio"><input type="radio" name="payment" value="Перевод" checked> Перевод</label>
+      <label><input type="radio" name="payment" value="Наличные"> Наличными при получении</label>
+    </div>
+
+    <div class="checkout-label">Доставка</div>
+    <div class="checkout-option-group">
+      <label><input type="radio" name="delivery" value="Москва" checked> Курьером по Москве</label>
+      <label><input type="radio" name="delivery" value="Почта"> Почтой по России</label>
+    </div>
+
+    <div class="checkout-label">Номер телефона:</div>
+    <input type="text" class="checkout-input" placeholder="+7">
+
+    <div class="checkout-label">Telegram аккаунт:</div>
+    <input type="text" class="checkout-input" placeholder="@username">
+
+    <div class="checkout-label">Адрес доставки:</div>
+    <input type="text" class="checkout-input" placeholder="Город, улица, дом...">
+
+    <div class="checkout-divider"></div>
+
+    <div class="checkout-summary">
+      <div class="checkout-total">Итого с доставкой: <span id="checkout-total">0 ₽</span></div>
+      <div class="checkout-delivery">Доставка: <span id="checkout-delivery">500 ₽</span></div>
+    </div>
+
+    <button class="checkout-confirm-btn">Оформить заказ</button>
+  </div>
+</div>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+</body>
+</html>
